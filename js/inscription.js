@@ -9,5 +9,5 @@ setTimeout(() => {
 	container.classList.add('sign-in')
 }, 200)
 function passer(){
-    location.href = "../index.html"
+    location.href = "./pages/home.html"
 }
