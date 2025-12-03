@@ -11,7 +11,7 @@
 <body>
     <div id="container" class="container">
         <div class="row">
-            <div class="col align-items-center flex-col sign-up">
+            <form class="col align-items-center flex-col sign-up" action="./php/inscription.php" method="POST">
                 <div class="form-wrapper align-items-center">
                     <div class="form sign-up">
                         <div class="input-group">
@@ -20,17 +20,17 @@
                         </div>
                         <div class="input-group">
                             <i class='bx bx-mail-send'></i>
-                            <input type="email" placeholder="Email">
+                            <input type="email" name="email" placeholder="Email">
                         </div>
                         <div class="input-group">
                             <i class='bx bxs-lock-alt'></i>
-                            <input type="password" placeholder="Password">
+                            <input type="password" name="password" placeholder="Password">
                         </div>
                         <div class="input-group">
                             <i class='bx bxs-lock-alt'></i>
                             <input type="password" placeholder="Confirm password">
                         </div>
-                        <button>
+                        <button type="submit">
                             Sign up
                         </button>
                         <p>
@@ -44,19 +44,19 @@
                     </div>
                 </div>
 
-            </div>
-            <div class="col align-items-center flex-col sign-in">
+            </form>
+            <form class="col align-items-center flex-col sign-in" action="./php/login.php" method="POST">
                 <div class="form-wrapper align-items-center">
                     <div class="form sign-in">
                         <div class="input-group">
                             <i class='bx bxs-user'></i>
-                            <input type="text" placeholder="Username">
+                            <input type="text" name="email"  placeholder="email">
                         </div>
                         <div class="input-group">
                             <i class='bx bxs-lock-alt'></i>
-                            <input type="password" placeholder="Password">
+                            <input type="password" name="password" placeholder="Password">
                         </div>
-                        <button onclick="passer()">
+                        <button onclick="passer()" type="submit">
                             Sign in
                         </button>
                         <p>
@@ -77,13 +77,9 @@
                 <div class="form-wrapper">
 
                 </div>
-            </div>
-            <!-- END SIGN IN -->
+            </form>
         </div>
-        <!-- END FORM SECTION -->
-        <!-- CONTENT SECTION -->
         <div class="row content-row">
-            <!-- SIGN IN CONTENT -->
             <div class="col align-items-center flex-col">
                 <div class="text sign-in">
                     <h2>
@@ -95,8 +91,6 @@
 
                 </div>
             </div>
-            <!-- END SIGN IN CONTENT -->
-            <!-- SIGN UP CONTENT -->
             <div class="col align-items-center flex-col">
                 <div class="img sign-up">
 
@@ -108,9 +102,7 @@
 
                 </div>
             </div>
-            <!-- END SIGN UP CONTENT -->
         </div>
-        <!-- END CONTENT SECTION -->
     </div>
 </body>
 <script src="./js/inscription.js"></script>

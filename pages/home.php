@@ -102,7 +102,12 @@
                         <div class="stat-icon">📚</div>
                         <div class="stat-title">Total des Cours</div>
                     </div>
-                    <div class="stat-value" id="totalCours">0</div>
+                    <div class="stat-value" id="totalCours">
+                        <?php 
+                        require_once "../php/allFunction.php";
+                        totalCours();
+                        ?>
+                    </div>
                     <div class="stat-description">Nombre total de cours programmés dans la salle.</div>
                 </div>
 
@@ -111,7 +116,12 @@
                         <div class="stat-icon">🏋️</div>
                         <div class="stat-title">Équipements Disponibles</div>
                     </div>
-                    <div class="stat-value" id="totalEquipements">0</div>
+                    <div class="stat-value" id="totalEquipements">
+                        <?php 
+                            require_once "../php/allFunction.php";
+                            totalEquipement();
+                        ?>
+                    </div>
                     <div class="stat-description">Quantité totale d’équipements disponibles.</div>
                 </div>
 

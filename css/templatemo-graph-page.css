@@ -825,6 +825,40 @@ footer {
     background: rgba(0, 255, 204, 0.1);
     color: #00ffcc;
 }
+.course-card {
+    width: 320px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.12);
+    font-family: "Poppins", sans-serif;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.18);
+}
+
+.course-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #1a73e8;
+    border-left: 5px solid #1a73e8;
+    padding-left: 10px;
+}
+
+.course-info p {
+    margin: 6px 0;
+    font-size: 15px;
+    color: #444;
+}
+
+.course-info strong {
+    color: #000;
+}
+
 
 /* Responsive */
 @media (max-width: 968px) {
