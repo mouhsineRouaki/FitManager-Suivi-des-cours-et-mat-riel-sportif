@@ -1,3 +1,7 @@
+<?php 
+    require "../php/config.php";
+    require "../php/allFunction.php";
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -97,16 +101,13 @@
             <!-- Stats Cards -->
             <div class="stats-grid">
 
-                <div class="stat-card">
+                <div class="stat-card" onclick="passerAuPageCours()">
                     <div class="stat-header">
                         <div class="stat-icon">📚</div>
                         <div class="stat-title">Total des Cours</div>
                     </div>
                     <div class="stat-value" id="totalCours">
-                        <?php 
-                        require_once "../php/allFunction.php";
-                        totalCours();
-                        ?>
+                        <?php totalCours();?>
                     </div>
                     <div class="stat-description">Nombre total de cours programmés dans la salle.</div>
                 </div>
@@ -117,10 +118,7 @@
                         <div class="stat-title">Équipements Disponibles</div>
                     </div>
                     <div class="stat-value" id="totalEquipements">
-                        <?php 
-                            require_once "../php/allFunction.php";
-                            totalEquipement();
-                        ?>
+                        <?php totalEquipement(); ?>
                     </div>
                     <div class="stat-description">Quantité totale d’équipements disponibles.</div>
                 </div>
@@ -356,6 +354,7 @@
             <p class="copyright">© 2026 Salle de Sport. Gestion des cours et équipements.</p>
         </div>
     </footer>
+    <script src="../js/inscription.js"></script>
 
 </body>
 </html>
