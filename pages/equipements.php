@@ -139,12 +139,6 @@ require_once "../php/config.php";
     <h1 class="equip-title">Tous les Équipements</h1>
 
     <button class="add-equip-btn" onclick="openEquipModal()">➕ Ajouter un équipement</button>
-
-    <div class="search-filter-bar">
-        <input type="text" name="searchEquip" id="searchEquip" class="search-input" placeholder="🔍 Rechercher un équipement...">
-        <button class="course-btn btn-delete" name="searchEquipement">Search</button>
-    </div>
-
     <div class="equip-grid" id="equipGrid">
         <?php afficherEquipements(); ?>
     </div>
