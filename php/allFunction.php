@@ -14,6 +14,29 @@ function totalEquipement(){
     $result= $stmt-> fetch(PDO::FETCH_ASSOC);
     echo "$result[total]";
 }
+function cardEquipement($row) {
+    echo '
+    <div class="course-card">
+        <h2 class="course-title">'.$row['equipement_nom'].'</h2>
+
+        <div class="course-info">
+            <p><strong>Type :</strong> '.$row['equipement_type'].'</p>
+            <p><strong>Quantité :</strong> '.$row['equipement_qt'].'</p>
+            <p><strong>État :</strong> '.$row['equipement_etat'].'</p>
+        </div>
+
+        <div class="course-actions">
+            <button class="course-btn btn-edit" onclick=\'editEquipement('.json_encode($row).')\'>
+                Modifier
+            </button>
+
+            <button class="course-btn btn-delete" onclick="supprimerEquipement('.$row['equipement_id'].')">
+                Supprimer
+            </button>
+        </div>
+    </div>';
+}
+
 function cardCour($row){
     echo '
     <div class="course-card">
@@ -42,6 +65,15 @@ function afficherCours(){
     $result= $stmt-> fetchAll(PDO::FETCH_ASSOC);
     foreach ($result as $row) {
         cardCour($row);
+    }
+}
+function afficherEquipements() {
+    global $conn;
+    $stmt = $conn->query("SELECT * FROM equipements ORDER BY equipement_id DESC");
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($data as $row) {
+        cardEquipement($row);
     }
 }
 function afficherCoursParAray(array $tab){
@@ -165,5 +197,34 @@ if(isset($_POST["modifierCour"])){
         header("Location: ../pages/cours.php");
     }else{
         echo "erreur lor lajout ";
+    }
+}
+
+if (isset($_POST["ajoutEquipement"])) {
+    $nom = $_POST["equip_nom"];
+    $type = $_POST["equip_type"];
+    $qt = $_POST["equip_qt"];
+    $etat = $_POST["equip_etat"];
+
+    if (ajouterEquipement($nom, $type, $qt, $etat)) {
+        header("Location: ../pages/equipements.php");
+        exit;
+    } else {
+        echo "Erreur lors de l'ajout de l'équipement.";
+    }
+}
+
+if (isset($_POST["modifierEquipement"])) {
+    $id = $_POST["equip_id"];
+    $nom = $_POST["equip_nom"];
+    $type = $_POST["equip_type"];
+    $qt = $_POST["equip_qt"];
+    $etat = $_POST["equip_etat"];
+
+    if (modifierEquipement($id, $nom, $type, $qt, $etat)) {
+        header("Location: ../pages/equipements.php");
+        exit;
+    } else {
+        echo "Erreur lors de la modification.";
     }
 }

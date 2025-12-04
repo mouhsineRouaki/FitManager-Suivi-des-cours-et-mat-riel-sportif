@@ -14,6 +14,9 @@ function passer(){
 function passerAuPageCours(){
     location.href = "./cours.php"
 }
+function passerAuPageEquipements(){
+    location.href = "./equipements.php"
+}
 
 
 

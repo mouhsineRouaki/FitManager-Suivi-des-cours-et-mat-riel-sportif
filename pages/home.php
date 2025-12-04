@@ -112,7 +112,7 @@
                     <div class="stat-description">Nombre total de cours programmés dans la salle.</div>
                 </div>
 
-                <div class="stat-card">
+                <div class="stat-card" onclick="passerAuPageEquipements()">
                     <div class="stat-header">
                         <div class="stat-icon">🏋️</div>
                         <div class="stat-title">Équipements Disponibles</div>
