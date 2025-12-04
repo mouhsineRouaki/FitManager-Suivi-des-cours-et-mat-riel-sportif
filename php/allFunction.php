@@ -1,5 +1,6 @@
 <?php 
 require_once "config.php";
+
 function totalCours(){
     global $conn;
     $stmt = $conn->prepare("SELECT COUNT(*) AS total FROM cours");
@@ -52,10 +53,16 @@ function cardCour($row){
 
         <div class="course-actions">
             <button class="course-btn btn-edit" onclick=\'editCours('.json_encode($row).')\'>Modifier</button>
-            <button class="course-btn btn-delete" name="suppresion" onclick=supprimerCour('.$row['cour_id'].')>Supprimer</button>
+            <button class="course-btn btn-delete" name="suppresion" onclick="supprimerCour('.$row['cour_id'].')">Supprimer</button>
+
+            <!-- NOUVEAU : bouton détail -->
+            <a class="course-btn btn-edit" href="cours_detail.php?id='.$row['cour_id'].'">
+                Voir les détails
+            </a>
         </div>
     </div>';
 }
+
 
 
 function afficherCours(){
@@ -67,6 +74,47 @@ function afficherCours(){
         cardCour($row);
     }
 }
+function getCourById($id){
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM cours WHERE cour_id = ?");
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+function ajouterEquipementAuCour($idCour, $idEquipement){
+    global $conn;
+    $stmt = $conn->prepare("
+        INSERT INTO cours_equipements (cour_id, equipement_id)
+        VALUES (?, ?)
+    ");
+    return $stmt->execute([$idCour, $idEquipement]);
+}
+
+function getEquipementsNonLiesAuCour($idCour){
+    global $conn;
+    $stmt = $conn->prepare("
+        SELECT *
+        FROM equipements
+        WHERE equipement_id NOT IN (
+            SELECT equipement_id FROM cours_equipements WHERE cour_id = ?
+        )
+        ORDER BY equipement_nom
+    ");
+    $stmt->execute([$idCour]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+function getEquipementsByCour($idCour){
+    global $conn;
+    $stmt = $conn->prepare("
+        SELECT e.*
+        FROM equipements e
+        INNER JOIN cours_equipements ce ON ce.equipement_id = e.equipement_id
+        WHERE ce.cour_id = ?
+        ORDER BY e.equipement_nom
+    ");
+    $stmt->execute([$idCour]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function afficherEquipements() {
     global $conn;
     $stmt = $conn->query("SELECT * FROM equipements ORDER BY equipement_id DESC");
@@ -178,12 +226,6 @@ if(isset($_POST["ajoutCour"])){
         echo "erreur lor lajout ";
     }
 }
-function getCourById($id){
-    global $conn;
-    $stmt = $conn->prepare("SELECT * FROM cours WHERE cours_id = ?");
-    $stmt->execute([$id]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
 
 if(isset($_POST["modifierCour"])){
     $id = $_POST["idCour"];
@@ -228,3 +270,11 @@ if (isset($_POST["modifierEquipement"])) {
         echo "Erreur lors de la modification.";
     }
 }
+if (isset($_POST["inscriotCour"])) {
+    if (modifierEquipement($id, $nom, $type, $qt, $etat)) {
+        header("Location: ../pages/equipements.php");
+        exit;
+    } else {
+        echo "Erreur lors de la modification.";
+    };
+};

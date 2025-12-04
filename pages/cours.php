@@ -173,7 +173,7 @@ require_once "../php/config.php";
         <button class="add-cours-btn" onclick="openModal()">➕ Ajouter un cours</button>
 
         <div class="search-filter-bar">
-            <input type="text" class="search-input" id="searchInput" name="recherche" placeholder="🔍 Rechercher un cours...">
+            <input type="text" class="search-input" id="searchInput" name="rechercheCour" placeholder="🔍 Rechercher un cours...">
             
             <select id="categoryFilter" class="category-select">
                 <option value="">Toutes les catégories</option>
