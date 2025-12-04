@@ -126,9 +126,6 @@ require_once "../php/config.php";
             outline: none;
             border-color: #00ffcc;
         }
-        #idCour{
-            display: none;
-        }
 
         .submit-btn {
             width: 100%;
@@ -189,18 +186,17 @@ require_once "../php/config.php";
     <div class="modal" id="coursModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h3 id="modalTitle">Ajouter un Cours</h3>
+            <h3>Ajouter un Cours</h3>
 
             <form  method="POST">
-                <input type="text" id="idCour" name="idCour" >
-                <input type="text" id="nomCour" name="nomCour" placeholder="Nom du cours" required>
-                <input type="text" id="categorieCour" name="categorieCour" placeholder="Catégorie" required>
-                <input type="date" id="dateCour" name="dateCour" required>
-                <input type="time" id="heureCour" name="heureCour" required>
-                <input type="number" id="dureeCour" name="dureeCour" placeholder="Durée en minutes" required>
-                <input type="number" id="maxCour" name="maxCour" placeholder="Max participants" required>
+                <input type="text" name="nomCour" placeholder="Nom du cours" required>
+                <input type="text" name="categorieCour" placeholder="Catégorie" required>
+                <input type="date" name="dateCour" required>
+                <input type="time" name="heureCour" required>
+                <input type="number" name="dureeCour" placeholder="Durée en minutes" required>
+                <input type="number" name="maxCour" placeholder="Max participants" required>
 
-                <button class="submit-btn" name="ajoutCour" id="btnSubmit" type="submit">Ajouter</button>
+                <button class="submit-btn" name="ajoutCour" type="submit">Ajouter</button>
             </form>
         </div>
     </div>
@@ -212,26 +208,6 @@ require_once "../php/config.php";
         function closeModal(){
             document.getElementById("coursModal").style.display = "none";
         };
-        function supprimerCour(id){
-            if(confirm("vous vouler supprimer ce ",id)){
-                location.href = "../php/supprimerCour.php?id=" + id
-            }
-        }
-        function editCours(c){
-            openModal();
-            document.getElementById("modalTitle").innerText = "Modifier un Cours";
-
-            document.getElementById("idCour").value = c.cour_id;
-            document.getElementById("nomCour").value = c.cour_nom;
-            document.getElementById("categorieCour").value = c.cour_category;
-            document.getElementById("dateCour").value = c.cour_date;
-            document.getElementById("heureCour").value = c.cour_heure;
-            document.getElementById("dureeCour").value = c.cour_dure;
-            document.getElementById("maxCour").value = c.nb_participants;
-
-            document.getElementById("btnSubmit").name = "modifierCour";
-            document.getElementById("btnSubmit").textContent = "Modifer"
-        }
 
     </script>
 

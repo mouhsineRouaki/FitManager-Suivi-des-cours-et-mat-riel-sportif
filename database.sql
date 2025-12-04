@@ -14,7 +14,9 @@ CREATE TABLE cours (
     cour_date DATE NOT NULL,
     cour_heure TIME NOT NULL,
     cour_dure INT NOT NULL,
-    nb_participants INT
+    nb_participants INT,
+    id_user,
+    FOREIGN KEY id_user REFERENCES  utilisateur(id)
 );
 
 CREATE TABLE cours_utilisateurs (

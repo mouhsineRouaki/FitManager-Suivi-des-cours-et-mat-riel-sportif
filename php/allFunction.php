@@ -28,9 +28,8 @@ function cardCour($row){
         </div>
 
         <div class="course-actions">
-            <button class="course-btn btn-view" onclick="viewCours('.$row['cour_id'].')">Voir</button>
-            <button class="course-btn btn-edit" onclick="editCours('.$row['cour_id'].')">Modifier</button>
-            <button class="course-btn btn-delete" onclick="deleteCours('.$row['cour_id'].')">Supprimer</button>
+            <button class="course-btn btn-edit" onclick=\'editCours('.json_encode($row).')\'>Modifier</button>
+            <button class="course-btn btn-delete" name="suppresion" onclick=supprimerCour('.$row['cour_id'].')>Supprimer</button>
         </div>
     </div>';
 }
@@ -45,6 +44,11 @@ function afficherCours(){
         cardCour($row);
     }
 }
+function afficherCoursParAray(array $tab){
+    foreach($tab as $t){
+        echo cardCour($t);
+    }
+}
 
 function showCategory(){
     global $conn;
@@ -57,11 +61,109 @@ function showCategory(){
 }
 function supprimerCour($id){
     global $conn;
-    $stmt = $conn-> prepare("delete from cours where cour_id = $id");
-    $stmt-> execute();
+    $stmt = $conn->prepare("DELETE FROM cours WHERE cour_id = ?");
+    $stmt2 = $conn->prepare("DELETE FROM cours_utilisateurs WHERE cour_id = ?");
+    return $stmt2->execute([$id]) && $stmt->execute([$id]);
 }
-function modifierCour($id){
+
+function modifierCour($id, $nom, $categorie, $date, $heure, $duree, $participants){
     global $conn;
-    $stmt = $conn-> prepare("SELECT DISTINCT cour_category from cours");
-    $stmt-> execute();
+    $stmt = $conn->prepare("
+        UPDATE cours 
+        SET cour_nom = ?, cour_category = ?, cour_date = ?, 
+            cour_heure = ?, cour_dure = ?, nb_participants = ?
+        WHERE cour_id = ?;
+    ");
+    return $stmt->execute([$nom, $categorie, $date, $heure, $duree, $participants, $id]);
+}
+
+function rechercherCours($keyword){
+    global $conn;
+    $stmt = $conn->prepare("
+        SELECT * FROM cours 
+        WHERE cour_nom LIKE ? OR cour_category LIKE ?
+    ");
+    $search = "%".$keyword."%";
+    $stmt->execute([$search, $search]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function ajouterCour($nom, $categorie, $date, $heure, $duree, $participants){
+    global $conn;
+    $stmt = $conn->prepare("
+        INSERT INTO cours (cour_nom, cour_category, cour_date, cour_heure, cour_dure, nb_participants)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ");
+    return $stmt->execute([$nom, $categorie, $date, $heure, $duree, $participants]);
+}
+
+function ajouterEquipement($nom, $type, $qt, $etat){
+    global $conn;
+    $stmt = $conn->prepare("
+        INSERT INTO equipements (equipement_nom, equipement_type, equipement_qt, equipement_etat)
+        VALUES (?, ?, ?, ?)
+    ");
+    return $stmt->execute([$nom, $type, $qt, $etat]);
+}
+function modifierEquipement($id, $nom, $type, $qt, $etat){
+    global $conn;
+    $stmt = $conn->prepare("
+        UPDATE equipements 
+        SET equipement_nom = ?, equipement_type = ?, 
+            equipement_qt = ?, equipement_etat = ?
+        WHERE equipement_id = ?
+    ");
+    return $stmt->execute([$nom, $type, $qt, $etat, $id]);
+}
+
+function supprimerEquipement($id){
+    global $conn;
+    $stmt = $conn->prepare("DELETE FROM equipements WHERE equipement_id = ?");
+    return $stmt->execute([$id]);
+}
+function rechercherEquipement($keyword){
+    global $conn;
+    $stmt = $conn->prepare("
+        SELECT * FROM equipements 
+        WHERE equipement_nom LIKE ? OR equipement_type LIKE ? OR equipement_etat LIKE ?
+    ");
+    $search = "%".$keyword."%";
+    $stmt->execute([$search, $search, $search]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+if(isset($_POST["ajoutCour"])){
+    $nom = $_POST["nomCour"];
+    $categorieCour = $_POST["categorieCour"];
+    $dateCour = $_POST["dateCour"];
+    $heureCour = $_POST["heureCour"];
+    $dureeCour = $_POST["dureeCour"];
+    $maxCour = $_POST["maxCour"];
+    if(ajouterCour($nom , $categorieCour , $dateCour, $heureCour ,$dureeCour,$maxCour )){
+        header("Location: ../pages/cours.php");
+    }else{
+        echo "erreur lor lajout ";
+    }
+}
+function getCourById($id){
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM cours WHERE cours_id = ?");
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+if(isset($_POST["modifierCour"])){
+    $id = $_POST["idCour"];
+    $nom = $_POST["nomCour"];
+    $categorieCour = $_POST["categorieCour"];
+    $dateCour = $_POST["dateCour"];
+    $heureCour = $_POST["heureCour"];
+    $dureeCour = $_POST["dureeCour"];
+    $maxCour = $_POST["maxCour"];
+    if(modifierCour($id,$nom , $categorieCour , $dateCour, $heureCour ,$dureeCour,$maxCour )){
+        header("Location: ../pages/cours.php");
+    }else{
+        echo "erreur lor lajout ";
+    }
 }
