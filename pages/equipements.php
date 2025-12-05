@@ -33,7 +33,7 @@ require_once "../php/functionsEquipements.php";
 
     <h1 class="equip-title">Tous les Équipements</h1>
 
-    <button class="add-equip-btn" onclick="openEquipModal()">➕ Ajouter un équipement</button>
+    <button class="add-equip-btn" onclick="openEquipModal()"> Ajouter un équipement</button>
     <div class="equip-grid" id="equipGrid">
         <?php afficherEquipements(); ?>
     </div>
@@ -51,7 +51,12 @@ require_once "../php/functionsEquipements.php";
             <input type="text" id="equip_nom" name="equip_nom" placeholder="Nom" required>
             <input type="text" id="equip_type" name="equip_type" placeholder="Type" required>
             <input type="number" id="equip_qt" name="equip_qt" placeholder="Quantité" required>
-            <input type="text" id="equip_etat" name="equip_etat" placeholder="État" required>
+            <select type="text" id="equip_etat" name="equip_etat" placeholder="État" required>
+                <option value="">etat de equipement</option>
+                <option value="bon">bon</option>
+                <option value="moyenne">moyenne</option>
+                <option value="faible">faible</option>
+            </select>
 
             <button type="submit" id="equipBtn" name="ajoutEquipement" class="submit-btn">Ajouter</button>
         </form>

@@ -1,16 +1,15 @@
 <?php
 require_once "../php/config.php";
 require_once "../php/functionsEquipements.php";
+require_once "../php/functionsCour.php";
 session_start();
 
-// Récupérer l'id de l'équipement dans l'URL
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     die("Équipement introuvable.");
 }
 
 $idEquipement = (int)$_GET['id'];
 
-// Traitement du formulaire d'ajout de cours à cet équipement
 if (isset($_POST['ajouterCourEquipement'])) {
     $cour_id = isset($_POST['cour_id']) ? (int)$_POST['cour_id'] : 0;
 
@@ -26,13 +25,11 @@ if (isset($_POST['ajouterCourEquipement'])) {
     }
 }
 
-// Récupérer les infos de l'équipement
 $equip = getEquipementById($idEquipement);
 if (!$equip) {
     die("Équipement introuvable.");
 }
 
-// Récupérer les cours liés et non liés
 $coursEquipement = getCoursByEquipement($idEquipement);
 $coursDispo = getCoursNonLiesEquipement($idEquipement);
 ?>
@@ -125,7 +122,6 @@ $coursDispo = getCoursNonLiesEquipement($idEquipement);
                     </div>
                 <?php endif; ?>
 
-                <!-- Formulaire pour ajouter un cours à cet équipement -->
                 <div class="form-block">
                     <h3>Associer cet équipement à un cours</h3>
 

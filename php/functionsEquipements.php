@@ -139,12 +139,3 @@ if (isset($_POST["modifierEquipement"])) {
         echo "Erreur lors de la modification.";
     }
 }
-
-if (isset($_POST["inscriotCour"])) {
-    if (modifierEquipement($id, $nom, $type, $qt, $etat)) {
-        header("Location: ../pages/equipements.php");
-        exit;
-    } else {
-        echo "Erreur lors de la modification.";
-    }
-}
