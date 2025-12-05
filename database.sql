@@ -30,7 +30,7 @@ CREATE TABLE cours_utilisateurs (
 CREATE TABLE equipements (
     equipement_id INT PRIMARY KEY AUTO_INCREMENT,
     equipement_nom VARCHAR(50) NOT NULL UNIQUE,
-    equipement_type VARCHAR(50) DEFAULT 'cardio',
+    equipement_type VARCHAR(50) Enum("bon" , "moyenne", "faible" ) DEFAULT "bon",
     equipement_qt INT DEFAULT 0,
     equipement_etat VARCHAR(40) DEFAULT 'bon'
 );

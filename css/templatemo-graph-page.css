@@ -715,7 +715,8 @@ nav.scrolled {
 
 .form-group input,
 .form-group textarea,
-.form-group select {
+.form-group select,
+select {
     width: 100%;
     padding: 12px 14px;
     background: rgba(255, 255, 255, 0.05);

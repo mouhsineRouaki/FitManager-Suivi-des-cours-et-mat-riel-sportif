@@ -1,6 +1,7 @@
 <?php 
     require "../php/config.php";
-    require "../php/allFunction.php";
+    require_once "../php/functionsEquipements.php";
+    require_once "../php/functionsCour.php";
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -11,7 +12,6 @@
     <link rel="stylesheet" href="../css/templatemo-graph-page.css">
 </head>
 <body>
-    <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-container">
             <a href="#home" class="logo">
@@ -25,8 +25,8 @@
             <ul class="nav-links">
                 <li><a href="#home" class="active">Accueil</a></li>
                 <li><a href="#dashboard">Dashboard</a></li>
-                <li><a href="#cours">Cours</a></li>
-                <li><a href="#equipements">Équipements</a></li>
+                <li><a href="./cours.php">Cours</a></li>
+                <li><a href="./equipements.php">Équipements</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <a href="https://www.google.com/search" target="_blank" rel="noopener" title="Recherche">
@@ -130,7 +130,11 @@
                     </div>
                     <div class="stat-description">Nombre de cours par catégorie (Yoga, Cardio, Musculation...)</div>
                     <div class="stat-chart">
-                        <canvas class="mini-chart" id="chartCours"></canvas>
+                            <?php $statsCours = getRepartitionCoursParCategorie();
+                                foreach ($statsCours as $row) {
+                                    echo '<p>'.$row['cour_category'].' : '.$row['total'].' cours</p>';
+                                }
+                            ?>
                     </div>
                 </div>
 
@@ -147,66 +151,22 @@
             </div>
         </div>
     </section>
-
-    <!-- Gestion des Cours -->
-    <section class="dashboard-section" id="cours">
+    <section class="contact-section" id="cours">
         <div class="dashboard-container">
-            <h2 class="section-title">Gestion des Cours</h2>
-
-            <div class="section-actions">
-                <button class="cta-button" onclick="openAddCours()">➕ Ajouter un Cours</button>
+            <h2 class="section-title">cardio</h2>
+            <div class="cours-grid" id="coursGrid">
+                <?php getCoursParCategory("cardio"); ?>
             </div>
-
-            <div class="table-wrapper">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Catégorie</th>
-                            <th>Date</th>
-                            <th>Heure</th>
-                            <th>Durée (min)</th>
-                            <th>Max Participants</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="coursTable">
-                        <!-- Rempli par JS -->
-                    </tbody>
-                </table>
+            <h2 class="section-title">Musculation</h2>
+            <div class="cours-grid" id="coursGrid">
+                <?php getCoursParCategory("Musculation"); ?>
             </div>
-        </div>
+            <h2 class="section-title">Récupération</h2>
+            <div class="cours-grid" id="coursGrid">
+                <?php getCoursParCategory("Récupération"); ?>
+            </div>
+            
     </section>
-
-    <!-- Gestion des Équipements -->
-    <section class="dashboard-section" id="equipements">
-        <div class="dashboard-container">
-            <h2 class="section-title">Gestion des Équipements</h2>
-
-            <div class="section-actions">
-                <button class="cta-button" onclick="openAddEquip()">➕ Ajouter un Équipement</button>
-            </div>
-
-            <div class="table-wrapper">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Type</th>
-                            <th>Quantité</th>
-                            <th>État</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="equipTable">
-                        <!-- Rempli par JS -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
     <section class="contact-section" id="contact">
         <div class="dashboard-container">
             <h2 class="section-title">Contact</h2>
@@ -347,6 +307,7 @@
             </form>
         </div>
     </div>
+    
 
     <!-- Footer -->
     <footer>
@@ -354,6 +315,7 @@
             <p class="copyright">© 2026 Salle de Sport. Gestion des cours et équipements.</p>
         </div>
     </footer>
+
     <script src="../js/inscription.js"></script>
 
 </body>

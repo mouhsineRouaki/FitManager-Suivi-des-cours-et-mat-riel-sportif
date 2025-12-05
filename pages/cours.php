@@ -1,6 +1,6 @@
 <?php 
-require_once "../php/allFunction.php";
 require_once "../php/config.php";
+require_once "../php/functionsCour.php";
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -9,139 +9,7 @@ require_once "../php/config.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tous les Cours</title>
     <link rel="stylesheet" href="../css/templatemo-graph-page.css">
-
-    <style>
-        .cours-wrapper {
-            padding: 120px 50px;
-            max-width: 1300px;
-            margin: auto;
-        }
-
-        .cours-title {
-            font-size: 42px;
-            text-align: center;
-            margin-bottom: 40px;
-            background: linear-gradient(135deg, #ffffff 0%, #00ffcc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .search-filter-bar {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            margin-bottom: 35px;
-        }
-
-        .search-input, .category-select {
-            flex: 1;
-            padding: 12px 15px;
-            border-radius: 12px;
-            font-size: 16px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.08);
-            color: white;
-            backdrop-filter: blur(6px);
-            transition: 0.3s ease;
-        }
-
-        .search-input:focus,
-        .category-select:focus {
-            outline: none;
-            border-color: #00ffcc;
-            box-shadow: 0 0 8px rgba(0,255,204,0.4);
-        }
-
-        .cours-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 35px;
-        }
-
-        .add-cours-btn {
-            display: inline-block;
-            padding: 12px 25px;
-            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-            color: white;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            margin-bottom: 20px;
-            box-shadow: 0 0 15px rgba(255,107,107,0.3);
-            transition: 0.3s ease;
-        }
-
-        .add-cours-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 20px rgba(255,107,107,0.5);
-        }
-
-        /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(3px);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            width: 420px;
-            background: #1a1f3a;
-            padding: 25px 30px;
-            border-radius: 18px;
-            border: 1px solid rgba(255,255,255,0.15);
-        }
-
-        .modal-content h3 {
-            margin-bottom: 20px;
-            background: linear-gradient(135deg,#fff,#00ffcc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .close-modal {
-            float: right;
-            font-size: 26px;
-            cursor: pointer;
-            margin-top: -10px;
-            color: #ff7171;
-        }
-
-        .modal input {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.06);
-            color: white;
-        }
-
-        .modal input:focus {
-            outline: none;
-            border-color: #00ffcc;
-        }
-        #idCour{
-            display: none;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            background: linear-gradient(135deg,#00ffcc,#00ccff);
-            border: none;
-            color: black;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-    </style>
+    <link rel="stylesheet" href="../css/cours.css">
 </head>
 <body>
 
@@ -157,11 +25,11 @@ require_once "../php/config.php";
             </a>
 
             <ul class="nav-links">
-                <li><a href="index.php">Accueil</a></li>
-                <li><a href="index.php#dashboard">Dashboard</a></li>
-                <li><a href="cours.php" class="active">Cours</a></li>
-                <li><a href="index.php#equipements">Équipements</a></li>
-                <li><a href="index.php#contact">Contact</a></li>
+                <li><a href="./home.php">Accueil</a></li>
+                <li><a href="./home.php#dashboard">Dashboard</a></li>
+                <li><a href="./cours.php" class="active">Cours</a></li>
+                <li><a href="./equipements.php">Équipements</a></li>
+                <li><a href="./home.php#contact">Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -186,7 +54,16 @@ require_once "../php/config.php";
             <form  method="POST">
                 <input type="text" id="idCour" name="idCour" >
                 <input type="text" id="nomCour" name="nomCour" placeholder="Nom du cours" required>
-                <input type="text" id="categorieCour" name="categorieCour" placeholder="Catégorie" required>
+                <select id="categorieCour" name="categorieCour" required>
+                    <option value="">-- Choisir une catégorie --</option>
+                    <option value="Cardio">Cardio</option>
+                    <option value="Musculation">Musculation</option>
+                    <option value="CrossFit">CrossFit</option>
+                    <option value="Yoga">Yoga</option>
+                    <option value="Pilates">Pilates</option>
+                    <option value="Danse">Danse</option>
+                    <option value="Stretching">Stretching</option>
+                </select>
                 <input type="date" id="dateCour" name="dateCour" required>
                 <input type="time" id="heureCour" name="heureCour" required>
                 <input type="number" id="dureeCour" name="dureeCour" placeholder="Durée en minutes" required>

@@ -34,9 +34,14 @@ function cardEquipement($row) {
             <button class="course-btn btn-delete" onclick="supprimerEquipement('.$row['equipement_id'].')">
                 Supprimer
             </button>
+
+            <a class="course-btn btn-edit" href="equipement_detail.php?id='.$row['equipement_id'].'">
+                Voir les détails
+            </a>
         </div>
     </div>';
 }
+
 
 function cardCour($row){
     echo '
@@ -211,6 +216,44 @@ function rechercherEquipement($keyword){
     $stmt->execute([$search, $search, $search]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+// Récupérer un équipement par ID
+function getEquipementById($id){
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM equipements WHERE equipement_id = ?");
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Récupérer les cours qui utilisent un équipement donné
+function getCoursByEquipement($idEquipement){
+    global $conn;
+    $stmt = $conn->prepare("
+        SELECT c.*
+        FROM cours c
+        INNER JOIN cours_equipements ce ON ce.cour_id = c.cour_id
+        WHERE ce.equipement_id = ?
+        ORDER BY c.cour_date, c.cour_heure
+    ");
+    $stmt->execute([$idEquipement]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Récupérer les cours qui ne sont PAS encore liés à cet équipement
+function getCoursNonLiesEquipement($idEquipement){
+    global $conn;
+    $stmt = $conn->prepare("
+        SELECT *
+        FROM cours
+        WHERE cour_id NOT IN (
+            SELECT cour_id FROM cours_equipements WHERE equipement_id = ?
+        )
+        ORDER BY cour_date, cour_heure
+    ");
+    $stmt->execute([$idEquipement]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 
 
 if(isset($_POST["ajoutCour"])){
