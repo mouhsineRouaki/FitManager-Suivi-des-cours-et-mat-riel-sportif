@@ -11,11 +11,11 @@ function totalEquipement(){
 }
 function getEquipementParEtat($Etat){
     global $conn;
-    $stmt = $conn->prepare("SELECT * FROM equipements where cour_category=? limit 3; ");
+    $stmt = $conn->prepare("SELECT * FROM equipements where equipement_etat=? limit 3; ");
     $stmt->execute([$Etat]);
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($result as $row){
-       echo cardCour($row);
+       echo cardEquipementHome($row);
     }
 }
 
@@ -39,6 +39,24 @@ function cardEquipement($row) {
                 Supprimer
             </button>
 
+            <a class="course-btn btn-edit" href="equipement_detail.php?id='.$row['equipement_id'].'">
+                Voir les détails
+            </a>
+        </div>
+    </div>';
+}
+function cardEquipementHome($row) {
+    echo '
+    <div class="course-card">
+        <h2 class="course-title">'.$row['equipement_nom'].'</h2>
+
+        <div class="course-info">
+            <p><strong>Type :</strong> '.$row['equipement_type'].'</p>
+            <p><strong>Quantité :</strong> '.$row['equipement_qt'].'</p>
+            <p><strong>État :</strong> '.$row['equipement_etat'].'</p>
+        </div>
+
+        <div class="course-actions">
             <a class="course-btn btn-edit" href="equipement_detail.php?id='.$row['equipement_id'].'">
                 Voir les détails
             </a>
@@ -83,16 +101,6 @@ function supprimerEquipement($id){
     return $stmt->execute([$id]);
 }
 
-function rechercherEquipement($keyword){
-    global $conn;
-    $stmt = $conn->prepare("
-        SELECT * FROM equipements 
-        WHERE equipement_nom LIKE ? OR equipement_type LIKE ? OR equipement_etat LIKE ?
-    ");
-    $search = "%".$keyword."%";
-    $stmt->execute([$search, $search, $search]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
 function getEquipementById($id){
     global $conn;
     $stmt = $conn->prepare("SELECT * FROM equipements WHERE equipement_id = ?");
@@ -105,7 +113,9 @@ function getRepartitionEquipementsParEtat() {
 
     $sql = "SELECT equipement_etat, COUNT(*) AS total
             FROM equipements
-            GROUP BY equipement_etat";
+            GROUP BY equipement_etat
+            ORDER BY total DESC
+            LIMIT 3;";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);

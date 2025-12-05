@@ -11,6 +11,9 @@ require_once "../php/functionsEquipements.php";
     <link rel="stylesheet" href="../css/templatemo-graph-page.css">
     <link rel="stylesheet" href="../css/equipements.css">
 </head>
+<style>
+    
+</style>
 
 <body>
 

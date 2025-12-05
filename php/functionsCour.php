@@ -121,7 +121,8 @@ function getRepartitionCoursParCategorie() {
 
     $sql = "SELECT cour_category, COUNT(*) AS total
             FROM cours
-            GROUP BY cour_category";
+            GROUP BY cour_category
+            order by total desc limit 3";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -132,7 +132,7 @@
                     <div class="stat-chart">
                             <?php $statsCours = getRepartitionCoursParCategorie();
                                 foreach ($statsCours as $row) {
-                                    echo '<p>'.$row['cour_category'].' : '.$row['total'].' cours</p>';
+                                    echo '<p class="stat-title">'.$row['cour_category'].' : '.$row['total'].' cours </p>';
                                 }
                             ?>
                     </div>
@@ -145,7 +145,11 @@
                     </div>
                     <div class="stat-description">Répartition des équipements par état : bon, moyen, à remplacer.</div>
                     <div class="stat-chart">
-                        <canvas class="mini-chart" id="chartEquip"></canvas>
+                        <?php $statsEquipement = getRepartitionEquipementsParEtat();
+                                foreach ($statsEquipement as $row) {
+                                    echo '<p class="stat-title">'.$row['equipement_etat'].' : '.$row['total'].' equipements </p>';
+                                }
+                            ?>
                     </div>
                 </div>
             </div>
@@ -153,17 +157,33 @@
     </section>
     <section class="contact-section" id="cours">
         <div class="dashboard-container">
-            <h2 class="section-title">cardio</h2>
+            <h2 class="section-title">cours cardio</h2>
             <div class="cours-grid" id="coursGrid">
                 <?php getCoursParCategory("cardio"); ?>
             </div>
-            <h2 class="section-title">Musculation</h2>
+            <h2 class="section-title">cours Musculation</h2>
             <div class="cours-grid" id="coursGrid">
                 <?php getCoursParCategory("Musculation"); ?>
             </div>
-            <h2 class="section-title">Récupération</h2>
+            <h2 class="section-title">cours Récupération</h2>
             <div class="cours-grid" id="coursGrid">
                 <?php getCoursParCategory("Récupération"); ?>
+            </div>
+            
+    </section>
+    <section class="contact-section" id="equipements">
+        <div class="dashboard-container">
+            <h2 class="section-title">bon equipements</h2>
+            <div class="cours-grid" id="coursGrid">
+                <?php getEquipementParEtat("bon"); ?>
+            </div>
+            <h2 class="section-title">moyene equipement</h2>
+            <div class="cours-grid" id="coursGrid">
+                <?php getEquipementParEtat("moyenne"); ?>
+            </div>
+            <h2 class="section-title">faible equipement</h2>
+            <div class="cours-grid" id="coursGrid">
+                <?php getEquipementParEtat("faible"); ?>
             </div>
             
     </section>

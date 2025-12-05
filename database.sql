@@ -3,6 +3,7 @@ USE brief1;
 
 CREATE TABLE utilisateur (
     id INT PRIMARY KEY AUTO_INCREMENT,
+    username varchar(50) NOT NULL UNIQUE,
     Useremail VARCHAR(50) NOT NULL UNIQUE,
     userPassword VARCHAR(100) NOT NULL
 );
@@ -20,9 +21,8 @@ CREATE TABLE cours (
 );
 
 CREATE TABLE cours_utilisateurs (
-    cours_utilisateurs_id INT PRIMARY KEY AUTO_INCREMENT,
-    id INT,
-    cour_id INT,
+    id INT PRIMARY KEY,
+    cour_id INT PRIMARY KEY,
     FOREIGN KEY (id) REFERENCES utilisateur(id),
     FOREIGN KEY (cour_id) REFERENCES cours(cour_id)
 );
@@ -30,15 +30,25 @@ CREATE TABLE cours_utilisateurs (
 CREATE TABLE equipements (
     equipement_id INT PRIMARY KEY AUTO_INCREMENT,
     equipement_nom VARCHAR(50) NOT NULL UNIQUE,
-    equipement_type VARCHAR(50) Enum("bon" , "moyenne", "faible" ) DEFAULT "bon",
+    equipement_type VARCHAR(50) ENUM("bon" , "moyenne", "faible" ) DEFAULT "bon",
     equipement_qt INT DEFAULT 0,
     equipement_etat VARCHAR(40) DEFAULT 'bon'
 );
 
 CREATE TABLE cours_equipements (
-    id_cours_equipement INT PRIMARY KEY AUTO_INCREMENT,
-    cour_id INT,
-    equipement_id INT,
+    cour_id INT PRIMARY KEY,
+    equipement_id INT PRIMARY KEY,
     FOREIGN KEY (cour_id) REFERENCES cours(cour_id),
     FOREIGN KEY (equipement_id) REFERENCES equipements(equipement_id)
 );
+
+
+
+/*  exemple selection */
+SELECT * FROM cours where cour_category=? limit 3; 
+/*  exemple insertion */
+INSERT INTO cours (cour_nom, cour_category, cour_date, cour_heure, cour_dure, nb_participants)VALUES (?, ?, ?, ?, ?, ?)
+/*  exemple update */
+UPDATE cours SET cour_nom = ?, cour_category = ?, cour_date = ?,  cour_heure = ?, cour_dure = ?, nb_participants = ? WHERE cour_id = ?;
+/*  exemple jointure */
+SELECT e.* FROM equipements e INNER JOIN cours_equipements ce ON ce.equipement_id = e.equipement_id WHERE ce.cour_id = ? ORDER BY e.equipement_nom
