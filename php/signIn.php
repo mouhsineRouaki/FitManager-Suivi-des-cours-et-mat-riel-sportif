@@ -1,23 +1,23 @@
 <?php 
-require_once "config.php";
+require_once "../config/database.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-    $stmt = $conn->prepare("SELECT id, Useremail, userPassword FROM utilisateur WHERE Useremail = :email");
+    $stmt = $conn->prepare("SELECT user_id, user_email, user_password FROM utilisateur WHERE user_email = :email");
     $stmt->execute([':email' => $email]);
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-        if (password_verify($password, $user['userPassword'])) {
+        if (password_verify($password, $user['user_password'])) {
             session_start();
-            $_SESSION["user_id"] = $user["id"];
-            $_SESSION["email"] = $user["Useremail"];
+            $_SESSION["user_id"] = $user["user_id"];
+            $_SESSION["email"] = $user["user_email"];
 
-            header("Location: ../pages/home.html");
+            header("Location: ../pages/pageHome.php");
             exit;
         } 
         else {
