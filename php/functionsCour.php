@@ -142,6 +142,21 @@ function getCoursParCategory($category){
     
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($result as $row){
+        cardCour($row);
+    }
+}
+function getCoursParCategoryHome($category){
+    global $conn;
+    if($category === ""){
+        $stmt = $conn->prepare("SELECT * FROM cours LIMIT 6;");
+        $stmt->execute();
+    }else{
+        $stmt = $conn->prepare("SELECT * FROM cours WHERE cour_category=? LIMIT 6;");
+        $stmt->execute([$category]);
+    }
+    
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($result as $row){
         cardCourHome($row);
     }
 }

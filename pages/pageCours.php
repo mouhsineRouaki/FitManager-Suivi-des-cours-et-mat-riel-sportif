@@ -1,4 +1,5 @@
 <?php 
+require_once "../php/check_connecter.php";
 require_once "../config/database.php";
 require_once "../php/functionsCour.php";
 require_once "../php/functionsEquipements.php";
@@ -132,7 +133,6 @@ $user = getUserById($_SESSION["user_id"]);
 
     <!-- FILTRES -->
     <div class="flex gap-3 mb-6">
-      <button class="filter-btn bg-blue-600 text-white px-4 py-2 rounded" data-category="all">Tous</button>
       <button class="filter-btn bg-gray-200 text-gray-700 px-4 py-2 rounded" data-category="Cardio">Cardio</button>
       <button class="filter-btn bg-gray-200 text-gray-700 px-4 py-2 rounded" data-category="Musculation">Musculation</button>
       <button class="filter-btn bg-gray-200 text-gray-700 px-4 py-2 rounded" data-category="Yoga">Yoga</button>
