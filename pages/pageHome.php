@@ -2,13 +2,17 @@
 require_once "../config/database.php";
 require_once "../php/functionsCour.php";
 require_once "../php/functionsEquipements.php";
+session_start();
 
-// Exemple utilisateur (remplacer par la session réelle)
-$user = [
-    "name" => "Mohamed",
-    "sold" => "250.00",
-    "image" => "../assets/user.png"
-];
+function getUserById($id){
+    global $conn;
+    $stmt = $conn->prepare("select * from utilisateur where user_id = ?");
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+$user = getUserById($_SESSION["user_id"]);
+
+    
 ?>
 
 <!DOCTYPE html>
@@ -35,27 +39,25 @@ $user = [
     <ul class="hidden md:flex gap-6 text-gray-700 font-medium">
       <li><a href="#home" class="hover:text-blue-600">Accueil</a></li>
       <li><a href="#dashboard" class="hover:text-blue-600">Dashboard</a></li>
-      <li><a href="./cours.php" class="hover:text-blue-600">Cours</a></li>
+      <li><a href="./pageCours.php" class="hover:text-blue-600">Cours</a></li>
       <li><a href="./equipements.php" class="hover:text-blue-600">Équipements</a></li>
       <li><a href="#contact" class="hover:text-blue-600">Contact</a></li>
     </ul>
 
-    <!-- PROFIL + NOM + SOLDE -->
     <div class="hidden md:flex items-center gap-3 cursor-pointer"
          onclick="openSidebar()">
 
-      <img src="<?php echo $user['image']; ?>" 
+      <img src="<?php echo $user['user_image']; ?>" 
            class="w-10 h-10 rounded-full border-2 border-blue-600" />
 
       <div>
-        <p class="font-semibold"><?php echo $user['name']; ?></p>
+        <p class="font-semibold"><?php echo $user['user_name']; ?></p>
         <p class="text-sm text-green-600 font-semibold">
-            <?php echo $user['sold']; ?> DH
+            <?php echo $user['user_sold']; ?> DH
         </p>
       </div>
     </div>
 
-    <!-- HAMBURGER -->
     <button id="hamburger" class="md:hidden flex flex-col space-y-1">
       <span class="w-6 h-1 bg-gray-700"></span>
       <span class="w-6 h-1 bg-gray-700"></span>
@@ -86,18 +88,18 @@ $user = [
 
   <!-- INFO UTILISATEUR -->
   <div class="p-4 text-center">
-    <img src="<?php echo $user['image']; ?>"
+    <img src="<?php echo $user['user_image']; ?>"
          class="w-24 h-24 rounded-full mx-auto border-4 border-blue-500" />
 
-    <h3 class="mt-3 text-xl font-bold"><?php echo $user['name']; ?></h3>
+    <h3 class="mt-3 text-xl font-bold"><?php echo $user['user_name']; ?></h3>
 
     <p class="text-green-600 text-lg font-semibold">
-        Solde : <?php echo $user['sold']; ?> DH
+        Solde : <?php echo $user['user_sold']; ?> DH
     </p>
 
     <!-- BOUTON DECONNEXION -->
     <button class="mt-4 w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition">
-        Déconnexion
+        <a href="../php/deconecter.php">Déconnexion</a>
     </button>
   </div>
 
@@ -148,7 +150,7 @@ $user = [
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
 
       <!-- CARD 1 -->
-      <div onclick="passerAuPageCours()" class="bg-white shadow p-6 rounded-lg cursor-pointer hover:shadow-lg transition">
+      <div onclick="location.href = './pageCours.php';" class="bg-white shadow p-6 rounded-lg cursor-pointer hover:shadow-lg transition">
         <div class="flex items-center justify-between mb-4">
           <span class="text-3xl">📚</span>
           <h3 class="font-semibold">Total des Cours</h3>
@@ -182,7 +184,6 @@ $user = [
         </div>
       </div>
 
-      <!-- CARD 4 -->
       <div class="bg-white shadow p-6 rounded-lg">
         <div class="flex items-center justify-between mb-4">
           <span class="text-3xl">⚙️</span>

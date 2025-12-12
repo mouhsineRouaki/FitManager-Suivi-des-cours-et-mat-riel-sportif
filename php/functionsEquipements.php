@@ -21,46 +21,87 @@ function getEquipementParEtat($Etat){
 
 function cardEquipement($row) {
     echo '
-    <div class="course-card">
-        <h2 class="course-title">'.$row['equipement_nom'].'</h2>
+    <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transition-all duration-300">
 
-        <div class="course-info">
+        <!-- TITRE -->
+        <h2 class="text-2xl font-semibold text-blue-600 mb-4">
+            '.$row['equipement_nom'].'
+        </h2>
+
+        <!-- INFORMATIONS -->
+        <div class="space-y-2 text-gray-700 mb-5">
             <p><strong>Type :</strong> '.$row['equipement_type'].'</p>
             <p><strong>Quantité :</strong> '.$row['equipement_qt'].'</p>
             <p><strong>État :</strong> '.$row['equipement_etat'].'</p>
         </div>
 
-        <div class="course-actions">
-            <button class="course-btn btn-edit" onclick=\'editEquipement('.json_encode($row).')\'>
+        <!-- ACTIONS -->
+        <div class="flex items-center justify-between pt-4 border-t">
+
+            <!-- Modifier -->
+            <button 
+                class="px-4 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 transition"
+                onclick=\'editEquipement('.json_encode($row).')\'>
                 Modifier
             </button>
 
-            <button class="course-btn btn-delete" onclick="supprimerEquipement('.$row['equipement_id'].')">
+            <!-- Supprimer -->
+            <button 
+                class="px-4 py-2 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition"
+                onclick="supprimerEquipement('.$row['equipement_id'].')">
                 Supprimer
             </button>
 
-            <a class="course-btn btn-edit" href="equipement_detail.php?id='.$row['equipement_id'].'">
-                Voir les détails
+            <!-- Voir détails -->
+            <a href="equipement_detail.php?id='.$row['equipement_id'].'"
+               class="px-4 py-2 rounded-lg bg-gray-700 text-white font-medium hover:bg-gray-800 transition">
+                Voir
             </a>
         </div>
+
     </div>';
 }
+
 function cardEquipementHome($row) {
     echo '
-    <div class="course-card">
-        <h2 class="course-title">'.$row['equipement_nom'].'</h2>
+    <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transition-all duration-300">
 
-        <div class="course-info">
+        <!-- TITRE -->
+        <h2 class="text-2xl font-semibold text-blue-600 mb-4">
+            '.$row['equipement_nom'].'
+        </h2>
+
+        <!-- INFORMATIONS -->
+        <div class="space-y-2 text-gray-700 mb-5">
             <p><strong>Type :</strong> '.$row['equipement_type'].'</p>
             <p><strong>Quantité :</strong> '.$row['equipement_qt'].'</p>
             <p><strong>État :</strong> '.$row['equipement_etat'].'</p>
         </div>
 
-        <div class="course-actions">
-            <a class="course-btn btn-edit" href="equipement_detail.php?id='.$row['equipement_id'].'">
-                Voir les détails
+        <!-- ACTIONS -->
+        <div class="flex items-center justify-between pt-4 border-t">
+
+            <!-- Modifier -->
+            <button 
+                class="px-4 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 transition"
+                onclick=\'editEquipement('.json_encode($row).')\'>
+                Modifier
+            </button>
+
+            <!-- Supprimer -->
+            <button 
+                class="px-4 py-2 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition"
+                onclick="supprimerEquipement('.$row['equipement_id'].')">
+                Supprimer
+            </button>
+
+            <!-- Voir détails -->
+            <a href="equipement_detail.php?id='.$row['equipement_id'].'"
+               class="px-4 py-2 rounded-lg bg-gray-700 text-white font-medium hover:bg-gray-800 transition">
+                Voir
             </a>
         </div>
+
     </div>';
 }
 

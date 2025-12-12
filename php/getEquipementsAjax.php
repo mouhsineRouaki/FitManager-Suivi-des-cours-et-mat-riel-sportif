@@ -1,8 +1,8 @@
 <?php
-require_once "../config/database.php";
-require_once "../php/functionsEquipements.php";
+    require_once "../config/database.php";
+    require_once "../php/functionsEquipements.php";
 
-$etat = $_GET['etat'] ?? '';
+    $etat = $_GET['etat'] ?? '';
 
-getEquipementParEtat($etat);
+    getEquipementParEtat($etat);
 ?>

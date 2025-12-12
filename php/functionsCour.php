@@ -12,7 +12,7 @@ function totalCours(){
 
 function cardCour($row){
     echo '
-    <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col items-center space-y-4" 
+    <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col items-center space-y-4"
          onclick="toggleDetails(this)">
 
         <!-- IMAGE DU COURS -->
@@ -35,11 +35,37 @@ function cardCour($row){
             <p><strong>Participants :</strong> '.$row['nb_participants'].'</p>
             <p><strong>Prix :</strong> '.$row['cour_prix'].' DH</p>
         </div>
+
+        <!-- BOUTONS ACTIONS -->
+        <div class="w-full flex justify-around mt-4 pt-3 border-t">
+
+            <!-- BTN Modifier -->
+            <button 
+                class="px-4 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 transition"
+                onclick=\'event.stopPropagation(); editCours('.json_encode($row).')\'>
+                Modifier
+            </button>
+
+            <!-- BTN Supprimer -->
+            <button 
+                class="px-4 py-2 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition"
+                onclick="event.stopPropagation(); supprimerCour('.$row['cour_id'].')">
+                Supprimer
+            </button>
+
+            <!-- BTN Voir les détails -->
+            <a href="pageDetailsCour.php?id='.$row['cour_id'].'"
+               class="px-4 py-2 rounded-lg bg-gray-700 text-white font-medium hover:bg-gray-800 transition"
+               onclick="event.stopPropagation();">
+                Voir
+            </a>
+        </div>
+
     </div>';
 }
 
+
 function cardCourHome($row){
-    // Même design que cardCour, mais sans boutons d'administration
     cardCour($row);
 }
 
@@ -78,12 +104,17 @@ function getCourById($id){
     $stmt->execute([$id]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
-
-function afficherCoursParAray(array $tab){
-    foreach($tab as $t){
-        cardCour($t);
+function rechercheCour($query){
+    global $conn;
+    $search = "%".$query."%";
+    $stmt = $conn->prepare("SELECT * FROM cours WHERE cour_id Like ? ");
+    $stmt->execute([$search]);
+    $result= $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach($result as $r){
+        cardCour($r);
     }
 }
+
 
 function showCategory(){
     global $conn;
@@ -97,9 +128,10 @@ function showCategory(){
 
 function supprimerCour($id){
     global $conn;
-    $stmt = $conn->prepare("DELETE FROM cours WHERE cour_id = ?");
+    $stmt1 = $conn->prepare("DELETE FROM cours_equipements WHERE cour_id = ?");
     $stmt2 = $conn->prepare("DELETE FROM cours_utilisateurs WHERE cour_id = ?");
-    return $stmt2->execute([$id]) && $stmt->execute([$id]);
+    $stmt3 = $conn->prepare("DELETE FROM cours WHERE cour_id = ?");
+    return $stmt1->execute([$id]) && $stmt2->execute([$id]) && $stmt3->execute([$id]);
 }
 
 function modifierCour($id, $nom, $categorie, $date, $heure, $duree, $participants){
@@ -184,6 +216,20 @@ function getCoursByEquipement($idEquipement){
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getUsersByCour($idCour) {
+    global $conn;
+
+    $sql = "SELECT u.user_id, u.user_name, u.user_email, u.user_image
+            FROM cours_utilisateurs cu
+            JOIN utilisateur u ON cu.user_id = u.user_id
+            WHERE cu.cour_id = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$idCour]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 function getCoursNonLiesEquipement($idEquipement){
     global $conn;
     $stmt = $conn->prepare("
@@ -198,7 +244,6 @@ function getCoursNonLiesEquipement($idEquipement){
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-/* === FORMULAIRES === */
 
 if(isset($_POST["ajoutCour"])){
     $nom = $_POST["nomCour"];
@@ -225,7 +270,7 @@ if(isset($_POST["modifierCour"])){
     $maxCour = $_POST["maxCour"];
 
     if(modifierCour($id,$nom , $categorieCour , $dateCour, $heureCour ,$dureeCour,$maxCour )){
-        header("Location: ../pages/cours.php");
+        header("Location: ../pages/pageCours.php");
     } else {
         echo "Erreur lors de la modification";
     }
