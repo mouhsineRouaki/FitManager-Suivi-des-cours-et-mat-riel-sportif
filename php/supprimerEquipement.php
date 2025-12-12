@@ -1,12 +1,12 @@
 <?php
-require_once "config.php";
-require_once "allFunction.php";
+require_once "../config/database.php";
+require_once "./functionsEquipements.php";
 
 if(isset($_GET['id'])){
     $id = $_GET['id'];
 
     if(supprimerEquipement($id)){
-        header("Location: ../pages/equipements.php");
+        header("Location: ../pages/pageEquipements.php");
         exit;
     } else {
         echo "Erreur lors de la suppression.";

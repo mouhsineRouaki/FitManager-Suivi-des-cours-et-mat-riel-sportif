@@ -11,13 +11,38 @@ function totalEquipement(){
 }
 function getEquipementParEtat($Etat){
     global $conn;
-    $stmt = $conn->prepare("SELECT * FROM equipements where equipement_etat=? limit 3; ");
+    $stmt = $conn->prepare("SELECT * FROM equipements where equipement_etat=?; ");
+    $stmt->execute([$Etat]);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($result as $row){
+       echo cardEquipement($row);
+    }
+}
+function getEquipementParEtatHome($Etat){
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM equipements where equipement_etat=?; ");
     $stmt->execute([$Etat]);
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($result as $row){
        echo cardEquipementHome($row);
     }
 }
+function rechercheEquipement($query){
+    global $conn;
+    $search = "%".$query."%";
+    $stmt = $conn->prepare("SELECT * FROM equipements WHERE equipement_nom LIKE ? OR equipement_type LIKE ? OR equipement_etat LIKE ?");
+    $stmt->execute([$search, $search, $search]);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (empty($result)) {
+        echo "<p class='text-center text-gray-500 py-4'>Aucun équipement trouvé</p>";
+        return;
+    }
+
+    foreach ($result as $row){
+        echo cardEquipementHome($row);
+    }
+}
+
 
 function cardEquipement($row) {
     echo '
@@ -53,7 +78,7 @@ function cardEquipement($row) {
             </button>
 
             <!-- Voir détails -->
-            <a href="equipement_detail.php?id='.$row['equipement_id'].'"
+            <a href="./pageDetailsEquipements.php?id='.$row['equipement_id'].'"
                class="px-4 py-2 rounded-lg bg-gray-700 text-white font-medium hover:bg-gray-800 transition">
                 Voir
             </a>
@@ -81,19 +106,7 @@ function cardEquipementHome($row) {
         <!-- ACTIONS -->
         <div class="flex items-center justify-between pt-4 border-t">
 
-            <!-- Modifier -->
-            <button 
-                class="px-4 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 transition"
-                onclick=\'editEquipement('.json_encode($row).')\'>
-                Modifier
-            </button>
-
-            <!-- Supprimer -->
-            <button 
-                class="px-4 py-2 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition"
-                onclick="supprimerEquipement('.$row['equipement_id'].')">
-                Supprimer
-            </button>
+            
 
             <!-- Voir détails -->
             <a href="equipement_detail.php?id='.$row['equipement_id'].'"
@@ -152,11 +165,7 @@ function getEquipementById($id){
 function getRepartitionEquipementsParEtat() {
     global $conn;
 
-    $sql = "SELECT equipement_etat, COUNT(*) AS total
-            FROM equipements
-            GROUP BY equipement_etat
-            ORDER BY total DESC
-            LIMIT 3;";
+    $sql = "SELECT equipement_etat, COUNT(*) AS total FROM equipements GROUP BY equipement_etat ORDER BY total DESC LIMIT 3;";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -169,7 +178,7 @@ if (isset($_POST["ajoutEquipement"])) {
     $etat = $_POST["equip_etat"];
 
     if (ajouterEquipement($nom, $type, $qt, $etat)) {
-        header("Location: ../pages/equipements.php");
+        header("Location: ../pages/pageEquipements.php");
         exit;
     } else {
         echo "Erreur lors de l'ajout de l'équipement.";
@@ -184,7 +193,7 @@ if (isset($_POST["modifierEquipement"])) {
     $etat = $_POST["equip_etat"];
 
     if (modifierEquipement($id, $nom, $type, $qt, $etat)) {
-        header("Location: ../pages/equipements.php");
+        header("Location: ../pages/pageEquipements.php");
         exit;
     } else {
         echo "Erreur lors de la modification.";

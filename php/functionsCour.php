@@ -66,10 +66,68 @@ function cardCour($row){
 
 
 function cardCourHome($row){
-    cardCour($row);
+    echo '
+    <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col items-center space-y-4"
+         onclick="toggleDetails(this)">
+
+        <!-- IMAGE DU COURS -->
+        <img src="'.($row['cour_image'] ?? 'https://via.placeholder.com/100').'" 
+             alt="'.$row['cour_nom'].'" 
+             class="w-24 h-24 rounded-full border-4 border-blue-500 object-cover" />
+
+        <!-- NOM + CATÉGORIE -->
+        <h2 class="text-xl font-semibold text-blue-600">'.$row['cour_nom'].'</h2>
+        <p class="text-gray-500 font-medium">'.$row['cour_category'].'</p>
+
+        <!-- DESCRIPTION -->
+        <p class="text-center text-gray-600 text-sm line-clamp-2">'.$row['cour_description'].'</p>
+
+        <!-- DÉTAILS SUPPLÉMENTAIRES (cachés par défaut) -->
+        <div class="details hidden w-full mt-3 text-gray-700 text-sm space-y-1">
+            <p><strong>Date :</strong> '.$row['cour_date'].'</p>
+            <p><strong>Heure :</strong> '.$row['cour_heure'].'</p>
+            <p><strong>Durée :</strong> '.$row['cour_dure'].'h</p>
+            <p><strong>Participants :</strong> '.$row['nb_participants'].'</p>
+            <p><strong>Prix :</strong> '.$row['cour_prix'].' DH</p>
+        </div>
+
+        <!-- BOUTONS ACTIONS -->
+        <div class="w-full flex justify-around mt-4 pt-3 border-t">
+            <!-- BTN Voir les détails -->
+            <a href="pageDetailsCour.php?id='.$row['cour_id'].'"
+               class="px-4 py-2 rounded-lg bg-gray-700 text-white font-medium hover:bg-gray-800 transition"
+               onclick="event.stopPropagation();">
+                Voir
+            </a>
+        </div>
+
+    </div>';
 }
+function cardCourSidebar($row){
+    echo '
+    <div class="bg-gray-50 border p-3 rounded-xl shadow-sm hover:shadow-md transition">
+        
+        <div class="flex items-center gap-3">
+            <img src="'.$row['cour_image'].'" class="w-14 h-14 rounded-lg object-cover">
+            
+            <div class="flex-1">
+                <h4 class="text-sm font-semibold text-gray-800">'.$row['cour_nom'].'</h4>
+                <p class="text-xs text-gray-500">'.$row['cour_category'].'</p>
+            </div>
+        </div>
 
-
+        <a href="pageDetailsCour.php?id='.$row['cour_id'].'"
+           class="mt-3 block text-center bg-blue-600 hover:bg-blue-700 text-white text-sm 
+                  py-1.5 rounded-lg transition">
+           Voir détails
+        </a>
+        <a href="../php/desinscription_cour.php?id_cour='.$row['cour_id'].'"
+           class="mt-3 block text-center bg-blue-600 hover:bg-blue-700 text-white text-sm 
+                  py-1.5 rounded-lg transition">
+           desincrir
+        </a>
+    </div>';
+}
 
 
 function getCoursParCategory($category){
@@ -107,13 +165,15 @@ function getCourById($id){
 function rechercheCour($query){
     global $conn;
     $search = "%".$query."%";
-    $stmt = $conn->prepare("SELECT * FROM cours WHERE cour_id Like ? ");
-    $stmt->execute([$search]);
-    $result= $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $conn->prepare("SELECT * FROM cours WHERE cour_nom LIKE ? OR cour_category LIKE ? OR cour_date LIKE ? OR cour_heure LIKE ? OR cour_id LIKE ?");
+    $stmt->execute([$search, $search, $search, $search, $search]);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     foreach($result as $r){
         cardCour($r);
     }
 }
+
 
 
 function showCategory(){
@@ -214,6 +274,20 @@ function getCoursByEquipement($idEquipement){
     ");
     $stmt->execute([$idEquipement]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+function getCoursByUtilisateur($idUser){
+    global $conn;
+    $stmt = $conn->prepare("
+        SELECT c.*
+        FROM cours c
+        INNER JOIN cours_utilisateurs cu ON cu.cour_id = c.cour_id
+        WHERE cu.user_id = ?
+    ");
+    $stmt->execute([$idUser]);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach($result as $r){
+        cardCourSidebar($r);
+    }
 }
 
 function getUsersByCour($idCour) {

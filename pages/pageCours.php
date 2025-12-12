@@ -40,9 +40,11 @@ $user = getUserById($_SESSION["user_id"]);
 
     <!-- MENU -->
     <ul class="hidden md:flex gap-6 text-gray-700 font-medium">
-      <li><a href="./home.php" class="hover:text-blue-600">Accueil</a></li>
-      <li><a href="./cours.php" class="text-blue-600 font-semibold">Cours</a></li>
-      <li><a href="./equipements.php" class="hover:text-blue-600">Équipements</a></li>
+      <li><a href="./pageHome.php#home" class="hover:text-blue-600">Accueil</a></li>
+      <li><a href="./pageHome.php#dashboard" class="hover:text-blue-600">Dashboard</a></li>
+      <li><a href="./pageCours.php" class="hover:text-blue-600">Cours</a></li>
+      <li><a href="./pageEquipements.php" class="hover:text-blue-600">Équipements</a></li>
+      <li><a href="./pageHome.php#contact" class="hover:text-blue-600">Contact</a></li>
     </ul>
 
     <!-- PROFIL -->
@@ -68,9 +70,9 @@ $user = getUserById($_SESSION["user_id"]);
 
   <!-- MENU MOBILE -->
   <ul id="mobileMenu" class="md:hidden hidden flex-col bg-white shadow px-6 py-4 text-gray-700 font-medium">
-    <li><a href="./home.php" class="py-2 block">Accueil</a></li>
-    <li><a href="./cours.php" class="py-2 block text-blue-600">Cours</a></li>
-    <li><a href="./equipements.php" class="py-2 block">Équipements</a></li>
+    <li><a href="./pageHome.php" class="py-2 block">Accueil</a></li>
+    <li><a href="./pageCours.php" class="py-2 block text-blue-600">Cours</a></li>
+    <li><a href="./pageEquipements.php" class="py-2 block">Équipements</a></li>
   </ul>
 </nav>
 

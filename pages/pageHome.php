@@ -40,7 +40,7 @@ $user = getUserById($_SESSION["user_id"]);
       <li><a href="#home" class="hover:text-blue-600">Accueil</a></li>
       <li><a href="#dashboard" class="hover:text-blue-600">Dashboard</a></li>
       <li><a href="./pageCours.php" class="hover:text-blue-600">Cours</a></li>
-      <li><a href="./equipements.php" class="hover:text-blue-600">Équipements</a></li>
+      <li><a href="./pageEquipements.php" class="hover:text-blue-600">Équipements</a></li>
       <li><a href="#contact" class="hover:text-blue-600">Contact</a></li>
     </ul>
 
@@ -109,20 +109,8 @@ $user = getUserById($_SESSION["user_id"]);
   <div class="p-4 overflow-y-auto h-[calc(100%-200px)]">
     <h3 class="text-lg font-semibold mb-3">Mes Cours</h3>
 
-    <div class="grid grid-cols-2 gap-3">
-
-      <?php 
-      // Exemple : afficher les cours pour cet utilisateur
-      $cours = getCoursByEquipement(1); 
-      foreach ($cours as $c) {
-        echo '
-        <div class="bg-gray-100 p-3 rounded shadow-sm hover:shadow-md transition">
-            <h4 class="text-sm font-bold">'.$c['cour_nom'].'</h4>
-            <p class="text-xs text-gray-600">'.$c['cour_category'].'</p>
-            <p class="text-xs">'.$c['cour_date'].'</p>
-        </div>';
-      }
-      ?>
+    <div class="grid grid-cols-1 gap-3">
+        <?php getCoursByUtilisateur($_SESSION["user_id"])?>
 
     </div>
   </div>
@@ -318,7 +306,7 @@ filterBtnsEquipements.forEach(btn => {
         btn.classList.add("bg-blue-600","text-white");
         btn.classList.remove("bg-gray-200","text-gray-700");
 
-        fetch(`../php/getEquipementsAjax.php?etat=${etat}`)
+        fetch(`../php/getEquipementsAjaxHome.php?etat=${etat}`)
             .then(res => res.text())
             .then(html => {
                 containerEquipement.innerHTML = html;
