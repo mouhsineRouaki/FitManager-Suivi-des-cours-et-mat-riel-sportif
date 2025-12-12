@@ -116,6 +116,9 @@ $user = getUserById($_SESSION["user_id"]);
                 <input type="number" id="equip_qt" name="equip_qt" class="w-full border p-2 rounded mb-3"
                     placeholder="Quantité" required>
 
+                <input type="url" id="equip_url" name="equip_url" class="w-full border p-2 rounded mb-3"
+                    placeholder="image equipements" required>
+
                 <select id="equip_etat" name="equip_etat" class="w-full border p-2 rounded mb-3" required>
                     <option value="">-- État --</option>
                     <option value="bon">Bon</option>

@@ -168,6 +168,7 @@ $user = getUserById($_SESSION["user_id"]);
       <input type="time" id="heureCour" name="heureCour" class="w-full border p-2 rounded mb-3" required>
       <input type="number" id="dureeCour" name="dureeCour" class="w-full border p-2 rounded mb-3" placeholder="Durée (min)" required>
       <input type="number" id="maxCour" name="maxCour" class="w-full border p-2 rounded mb-3" placeholder="Max participants" required>
+      <input type="url" id="urlCour" name="urlCour" class="w-full border p-2 rounded mb-3" placeholder="url image" required>
 
       <button class="w-full bg-blue-600 text-white py-2 rounded" name="ajoutCour" id="btnSubmit">
         Ajouter

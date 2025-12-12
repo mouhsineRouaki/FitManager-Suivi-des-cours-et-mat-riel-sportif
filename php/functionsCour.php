@@ -233,13 +233,13 @@ function getRepartitionCoursParCategorie() {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function ajouterCour($nom, $categorie, $date, $heure, $duree, $participants){
+function ajouterCour($nom, $categorie, $date, $heure, $duree, $participants,$url){
     global $conn;
     $stmt = $conn->prepare("
-        INSERT INTO cours (cour_nom, cour_category, cour_date, cour_heure, cour_dure, nb_participants)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO cours (cour_nom, cour_category, cour_date, cour_heure, cour_dure, nb_participants,cour_image)
+        VALUES (?, ?, ?, ?, ?, ?,?)
     ");
-    return $stmt->execute([$nom, $categorie, $date, $heure, $duree, $participants]);
+    return $stmt->execute([$nom, $categorie, $date, $heure, $duree, $participants,$url]);
 }
 
 function ajouterEquipementAuCour($idCour, $idEquipement){
@@ -341,9 +341,10 @@ if(isset($_POST["ajoutCour"])){
     $heureCour = $_POST["heureCour"];
     $dureeCour = $_POST["dureeCour"];
     $maxCour = $_POST["maxCour"];
+    $imageCour = $_POST["urlCour"];
 
-    if(ajouterCour($nom , $categorieCour , $dateCour, $heureCour ,$dureeCour,$maxCour )){
-        header("Location: ../pages/cours.php");
+    if(ajouterCour($nom , $categorieCour , $dateCour, $heureCour ,$dureeCour,$maxCour,$imageCour )){
+        header("Location: ../pages/pageCours.php");
     } else {
         echo "Erreur lors de l'ajout";
     }

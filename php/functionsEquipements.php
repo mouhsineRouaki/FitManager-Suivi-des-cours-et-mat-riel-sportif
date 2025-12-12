@@ -128,13 +128,13 @@ function afficherEquipements() {
 }
 
 
-function ajouterEquipement($nom, $type, $qt, $etat){
+function ajouterEquipement($nom, $type, $qt, $etat,$url){
     global $conn;
     $stmt = $conn->prepare("
-        INSERT INTO equipements (equipement_nom, equipement_type, equipement_qt, equipement_etat)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO equipements (equipement_nom, equipement_type, equipement_qt, equipement_etat,equipement_image)
+        VALUES (?, ?, ?, ?,?)
     ");
-    return $stmt->execute([$nom, $type, $qt, $etat]);
+    return $stmt->execute([$nom, $type, $qt, $etat,$url]);
 }
 
 function modifierEquipement($id, $nom, $type, $qt, $etat){
@@ -175,8 +175,9 @@ if (isset($_POST["ajoutEquipement"])) {
     $type = $_POST["equip_type"];
     $qt = $_POST["equip_qt"];
     $etat = $_POST["equip_etat"];
+    $url = $_POST["equip_url"];
 
-    if (ajouterEquipement($nom, $type, $qt, $etat)) {
+    if (ajouterEquipement($nom, $type, $qt, $etat,$url)) {
         header("Location: ../pages/pageEquipements.php");
         exit;
     } else {
