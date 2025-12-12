@@ -39,7 +39,7 @@ function rechercheEquipement($query){
     }
 
     foreach ($result as $row){
-        echo cardEquipementHome($row);
+        echo cardEquipement($row);
     }
 }
 
@@ -106,10 +106,8 @@ function cardEquipementHome($row) {
         <!-- ACTIONS -->
         <div class="flex items-center justify-between pt-4 border-t">
 
-            
-
             <!-- Voir détails -->
-            <a href="equipement_detail.php?id='.$row['equipement_id'].'"
+            <a href="../pages/pageDetailsEquipements.php?id='.$row['equipement_id'].'"
                class="px-4 py-2 rounded-lg bg-gray-700 text-white font-medium hover:bg-gray-800 transition">
                 Voir
             </a>
@@ -128,6 +126,7 @@ function afficherEquipements() {
         cardEquipement($row);
     }
 }
+
 
 function ajouterEquipement($nom, $type, $qt, $etat){
     global $conn;

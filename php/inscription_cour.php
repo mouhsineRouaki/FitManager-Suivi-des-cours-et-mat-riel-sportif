@@ -10,8 +10,8 @@ function getUserById($id){
 }
 function updateSoldUser($id,$newSold){
     global $conn;
-    $stmt = $conn ->prepare("update cour set user_sold = ? where user_id = ?");
-    return $stmt->execute([$id, $newSold]);
+    $stmt = $conn ->prepare("update utilisateur set user_sold = ? where user_id = ?");
+    return $stmt->execute([ $newSold,$id]);
 }
 
 
@@ -44,9 +44,9 @@ if ($stmtInsert->execute([
     ':user_id' => $user_id,
     ':cour_id' => $cour_id
 ])) {
-    header("Location: pageDetailsCour.php?id=$cour_id");
+    header("Location: ../pages/pageDetailsCour.php?id=$cour_id");
     exit;
 } else {
-    header("Location: pageDetailsCour.php?id=$cour_id");
+    header("Location: ../pages/pageDetailsCour.php?id=$cour_id");
     exit;
 }

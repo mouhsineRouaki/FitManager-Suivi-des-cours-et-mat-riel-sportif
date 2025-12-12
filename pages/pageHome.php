@@ -220,7 +220,7 @@ $user = getUserById($_SESSION["user_id"]);
     </div>
 
     <div id="coursContainerEquipement" class="grid md:grid-cols-3 gap-6">
-        <?php getEquipementParEtat("bon"); ?>
+        <?php getEquipementParEtatHome("bon"); ?>
     </div>
   </div>
 </section>

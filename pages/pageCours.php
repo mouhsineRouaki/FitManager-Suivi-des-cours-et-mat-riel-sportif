@@ -78,13 +78,15 @@ $user = getUserById($_SESSION["user_id"]);
 
 <!-- ================= SIDEBAR ================= -->
 <div id="sidebar"
-     class="fixed top-0 right-0 w-80 h-full bg-white shadow-xl transform translate-x-full transition duration-300 z-[999]">
+     class="fixed top-0 right-0 w-80 h-full bg-white shadow-xl transform translate-x-full transition-transform duration-300 z-[999]">
 
+  <!-- HEADER -->
   <div class="flex justify-between items-center p-4 border-b">
     <h2 class="text-lg font-semibold">Profil Utilisateur</h2>
     <button onclick="closeSidebar()" class="text-red-600 text-xl font-bold">✕</button>
   </div>
 
+  <!-- INFO UTILISATEUR -->
   <div class="p-4 text-center">
     <img src="<?php echo $user['user_image']; ?>"
          class="w-24 h-24 rounded-full mx-auto border-4 border-blue-500" />
@@ -95,10 +97,22 @@ $user = getUserById($_SESSION["user_id"]);
         Solde : <?php echo $user['user_sold']; ?> DH
     </p>
 
-    <a href="../php/deconecter.php"
-       class="mt-4 w-full block bg-red-600 text-white py-2 rounded hover:bg-red-700 transition">
-       Déconnexion
-    </a>
+    <!-- BOUTON DECONNEXION -->
+    <button class="mt-4 w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition">
+        <a href="../php/deconecter.php">Déconnexion</a>
+    </button>
+  </div>
+
+  <hr>
+
+  <!-- CARDS DES COURS (2 COLONNES) -->
+  <div class="p-4 overflow-y-auto h-[calc(100%-200px)]">
+    <h3 class="text-lg font-semibold mb-3">Mes Cours</h3>
+
+    <div class="grid grid-cols-1 gap-3">
+        <?php getCoursByUtilisateur($_SESSION["user_id"])?>
+
+    </div>
   </div>
 </div>
 

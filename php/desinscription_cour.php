@@ -10,8 +10,8 @@ function getUserById($id){
 }
 function updateSoldUser($id,$newSold){
     global $conn;
-    $stmt = $conn ->prepare("update cour set user_sold = ? where user_id = ?");
-    return $stmt->execute([$id, $newSold]);
+    $stmt = $conn ->prepare("update utilisateur set user_sold = ? where user_id = ?");
+    return $stmt->execute([$newSold,$id]);
 }
 
 
