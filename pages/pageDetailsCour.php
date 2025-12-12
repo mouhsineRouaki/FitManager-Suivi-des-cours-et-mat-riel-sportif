@@ -68,7 +68,7 @@ foreach ($usersInscriptions as $u) {
 
             <div class="flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full">
                 <span class="w-2 h-2 bg-blue-600 rounded-full"></span>
-                Cours #<?php echo $idCour; ?>
+                <a href="../php/export_pdf.php?id=<?= $idCour ?>"  class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Exporter PDF</a>
             </div>
         </div>
 

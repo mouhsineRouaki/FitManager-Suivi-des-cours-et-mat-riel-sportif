@@ -35,7 +35,7 @@ $dompdf = new Dompdf($options);
 $html = '
 <h1 style="text-align:center;">Détails du cours</h1>
 
-<h3>'.$cour["cour_titre"].'</h3>
+<h3>'.$cour["cour_nom"].'</h3>
 <p><strong>Description :</strong> '.$cour["cour_description"].'</p>
 <p><strong>Prix :</strong> '.$cour["cour_prix"].' MAD</p>
 
