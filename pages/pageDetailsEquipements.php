@@ -3,7 +3,6 @@ require_once "../php/check_connecter.php";
 require_once "../config/database.php";
 require_once "../php/functionsEquipements.php";
 require_once "../php/functionsCour.php";
-session_start();
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     die("Équipement introuvable.");

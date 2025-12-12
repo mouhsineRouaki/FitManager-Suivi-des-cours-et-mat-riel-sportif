@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once "../php/check_connecter.php";
 require_once "../config/database.php";
 require_once "./functionsCour.php";

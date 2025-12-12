@@ -3,7 +3,6 @@ require_once "../php/check_connecter.php";
 require_once "../config/database.php";
 require_once "../php/functionsCour.php";
 require_once "../php/functionsEquipements.php";
-session_start();
 
 function getUserById($id){
     global $conn;

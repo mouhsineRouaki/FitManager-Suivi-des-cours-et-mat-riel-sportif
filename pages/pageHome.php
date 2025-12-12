@@ -3,7 +3,6 @@ require_once "../php/check_connecter.php";
 require_once "../config/database.php";
 require_once "../php/functionsCour.php";
 require_once "../php/functionsEquipements.php";
-session_start();
 
 function getUserById($id){
     global $conn;
@@ -203,7 +202,7 @@ $user = getUserById($_SESSION["user_id"]);
     </div>
 
     <div id="coursContainerCour" class="grid md:grid-cols-3 gap-6">
-        <?php getCoursParCategory("cardio"); ?>
+        <?php getCoursParCategoryHome("cardio"); ?>
       
     </div>
   </div>
@@ -288,7 +287,7 @@ filterBtnsCours.forEach(btn => {
         btn.classList.add("bg-blue-600","text-white");
         btn.classList.remove("bg-gray-200","text-gray-700");
 
-        fetch(`../php/getCoursAjax.php?category=${category}`)
+        fetch(`../php/getCoursAjaxHome.php?category=${category}`)
             .then(res => res.text())
             .then(html => {
                 containerCour.innerHTML = html;

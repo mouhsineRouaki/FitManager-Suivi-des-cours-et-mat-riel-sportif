@@ -2,7 +2,6 @@
 require_once "../php/check_connecter.php";
 require_once "../config/database.php";
 require_once "../php/functionsCour.php";
-session_start();
 if (!isset($_GET['id'])) {
     die("Cours introuvable.");
 }

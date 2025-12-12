@@ -4,7 +4,6 @@ require_once "../config/database.php";
 require_once "../php/functionsEquipements.php";
 require_once "../php/functionsCour.php";
 
-session_start();
 
 function getUserById($id)
 {
