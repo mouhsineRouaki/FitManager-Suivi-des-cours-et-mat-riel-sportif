@@ -13,9 +13,6 @@ function passer() {
     location.href = "./pages/home.php";
 }
 
-/*==========================
-    APERCU IMAGE EN LIVE
-===========================*/
 let imageUrl = document.getElementById("imageUrl");
 let previewImg = document.getElementById("previewImg");
 
@@ -27,7 +24,4 @@ imageUrl.addEventListener("input", () => {
     }
 });
 
-/*==========================
-      VALIDATION SIGN UP
-===========================*/
 

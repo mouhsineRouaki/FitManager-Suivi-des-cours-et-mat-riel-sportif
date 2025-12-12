@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute([$username,$userimage,$email,$hashedPassword])) {
         echo "Votre compte a été créé avec succès !";
     } else {
-        echo "Erreur SQL : " . implode(" ", $stmt->errorInfo());
+        echo "Erreur SQL : ". $stmt->errorInfo();
     }
 }
 ?>
